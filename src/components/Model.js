@@ -1,33 +1,19 @@
+import { useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import styled from 'styled-components'
-// import SphereMaterial from './SphereMaterial'
-import { shaderMaterial } from '@react-three/drei'
-import * as THREE from 'three'
+import SphereMaterial from './SphereMaterial'
 import { extend } from '@react-three/fiber'
-import vertexShader from '../shaders/vertex'
-import fragmentShader from '../shaders/fragment'
+import Sphere from './Sphere'
 
-const PortalMaterial = shaderMaterial(
-  {
-    uTime: 0,
-    uColorStart: new THREE.Color('#ffffff'),
-    uColorEnd: new THREE.Color('#000000'),
-  },
-  vertexShader,
-  fragmentShader
-)
-extend({ PortalMaterial })
+extend({ SphereMaterial })
 
 const Model = () => {
   return (
     <CanvasContainerWrapper>
       <Canvas>
         <color args={['#191817']} attach='background' />
-        <mesh scale={1.1}>
-          <sphereGeometry args={[1, 32, 32]} />
-          <portalMaterial />
-        </mesh>
+        <Sphere />
         <OrbitControls />
       </Canvas>
     </CanvasContainerWrapper>
