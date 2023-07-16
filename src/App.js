@@ -1,9 +1,10 @@
-import { ContentSection, Model } from './components/'
+import CanvasContainer from './components/CanvasContainer'
+import Model from './components/CanvasContainer'
 function App() {
   return (
     <>
       <Model />
-      <ContentSection />
+      <CanvasContainer />
     </>
   )
 }

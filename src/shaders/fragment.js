@@ -1,33 +1,42 @@
-export default /* glsl */ `
-uniform float uTime;
-uniform sampler2D uTexture;
+const fragmentShader = /*glsl */ `
+#define PI 3.1415926535897932384626433832795
 varying vec2 vUv;
+uniform sampler2D uTexture;
+uniform float uTime;
 
-vec4 rgb(float r, float g, float b) {
-    return vec4(r/255.0, g / 255.0, b / 255.0, 1.0 );
-}
+void main () {
 
-void main()
-{
-    vec2 point = fract(vUv * 0.51 + uTime*0.005);
+ vec2 vUv = vUv * 2.0;
+   
+    vUv -=  1.0;
+    
+    // get angle and radius
+    float radius = length(vUv);
+    float angle = atan(vUv.y, vUv.x);
+   
+   angle *= 12.0;
+   angle /= PI * 2.0;    
+   
+   if (mod(angle, 2.0) >= 1.0) {
+    angle = fract(angle);
+    } else {
+    angle = 1.0 - fract(angle);
+    }
+ 
+   angle += uTime * 0.25;
+    angle /= 12.0;
+    angle *= PI * 2.0;
 
-    vec4 tl = rgb(251.0, 41.0, 212.0);
-    vec4 tr = rgb(0.0, 255., 244.);
-    vec4 bl = rgb(150.0, 155., 0.);
-    vec4 br = rgb(131.0, 144., 255.);
-
-    vec4 textureColor = texture2D(uTexture, point);
-
-    float displacementX = mix(-0.5, 0.5, textureColor.r + cos(uTime * 0.05));
-    float displacementY = mix(-0.25, 0.5, textureColor.g + sin(uTime * 0.15));
-
-    vec4 finalColor =  mix(
-    mix(tl, tr, vUv.x+ displacementX), 
-    mix(bl,br, vUv.x - displacementY), 
-    vUv.y + displacementY);
 
 
-    // vec4 textureColor = texture2D(uTexture, vUv);
-    gl_FragColor = finalColor;
+    vec2 point2 = vec2(radius * cos(angle), radius * sin(angle));
+    point2 = 1.0 - fract(point2);
+    point2 = fract(point2);
+    
+    vec4 color = texture(uTexture, point2);
+    
+    gl_FragColor = vec4(color);
 }
 `
+
+export default fragmentShader

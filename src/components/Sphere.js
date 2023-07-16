@@ -1,23 +1,21 @@
-import { useFrame } from '@react-three/fiber'
 import React, { useRef } from 'react'
-import SphereMaterial from './SphereMaterial'
-import { extend } from '@react-three/fiber'
+import { extend, useFrame } from '@react-three/fiber'
+import ShaderMaterialComp from './ShaderMaterialComp'
+import * as THREE from 'three'
 
-extend({ SphereMaterial })
+//extend({ ShaderMaterialComp })
 
 const Sphere = () => {
-  const sphereMaterialRef = useRef()
-  const meshRef = useRef()
+  const ref = useRef()
 
   useFrame((state, delta) => {
-    sphereMaterialRef.current.uTime += delta
-    // meshRef.current.rotation.x += Math.sin(delta * 0.05)
-    // meshRef.current.rotation.y += Math.sin(delta * 0.15)
+    ref.current.uTime += delta
   })
+
   return (
-    <mesh scale={1.1} ref={meshRef}>
-      <sphereGeometry args={[1, 32, 32]} />
-      <sphereMaterial ref={sphereMaterialRef} />
+    <mesh>
+      <planeGeometry args={[5, 5]} />
+      <shaderMaterialComp ref={ref} />
     </mesh>
   )
 }

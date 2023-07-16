@@ -1,20 +1,20 @@
-import { useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import styled from 'styled-components'
-import SphereMaterial from './SphereMaterial'
-import { extend } from '@react-three/fiber'
 import Sphere from './Sphere'
+import Background from './Background'
+import { EffectComposer } from '@react-three/postprocessing'
 
-extend({ SphereMaterial })
-
-const Model = () => {
+const CanvasContainer = () => {
   return (
     <CanvasContainerWrapper>
       <Canvas>
         <color args={['#191817']} attach='background' />
-        <Sphere />
+        {/* <Sphere /> */}
         <OrbitControls />
+        <EffectComposer>
+          <Background />
+        </EffectComposer>
       </Canvas>
     </CanvasContainerWrapper>
   )
@@ -27,4 +27,4 @@ const CanvasContainerWrapper = styled.section`
   z-index: -1;
 `
 
-export default Model
+export default CanvasContainer
